@@ -1,11 +1,19 @@
-#ifndef USER_H
-#define USER_H
-class User
-{
-private:
-    /* data */
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
+class Customer
+{    
 public:
-    User(/* args */);
-    ~User();
+    Customer(int id,int phone);
+    ~Customer()=default;
+    bool isMember() const;
+    void makeMember();
+    int getPhoneNumber() const;
+    void Addexpenses(double value);
+    double getExpenses() const;
+private:
+    int m_id;
+    int m_phoneNumber;
+    double m_Expenses;
+    bool m_isMemeber;
 };
 #endif
