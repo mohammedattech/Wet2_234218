@@ -64,22 +64,17 @@ public:
 
     node *getRoot();
 
-    void fillArray(pair<K,T>**array,int *index);
     template<class pred>
     void inorderExecution(pred &function);
 
     T *getMinumumData();
 
-    template<class pred>
-    void fillKeyData(pred &function);
 
 private:
     node *m_root;
     int m_size;
 
     node *searchNode(K key);
-
-    void fillArray(node* vertics,pair<K,T>**array,int *index);
 
     node *findNextInOrder(node *vertics);
 
@@ -110,8 +105,6 @@ private:
     template<class pred>
     void inorderExecution(node *vertics, pred &function);
 
-    template<class pred>
-    void fillKeyData(node *vertics, pred &function);
 };
 
 
@@ -497,39 +490,4 @@ T *AvlTree<T, K>::getMinumumData() {
     return &minimumNode->m_data;
 }
 
-
-template<class T, class K>
-template<class pred>
-void AvlTree<T, K>::fillKeyData(pred &function) {
-    fillKeyData(m_root, function);
-}
-
-
-template<class T, class K>
-template<class pred>
-void AvlTree<T, K>::fillKeyData(node *vertics, pred &function) {
-    if (!vertics)
-        return;
-    fillKeyData(vertics->m_left, function);
-    pair<K, T> *md = new pair<K, T>(vertics->m_key, vertics->m_data);
-    function(md);
-    fillKeyData(vertics->m_left, function);
-}
-
-
-template<class T,class K>
-void AvlTree<T,K>::fillArray(pair<K, T> **array, int *index) {
-    fillArray(m_root,array,index);
-}
-
-template<class T,class K>
-void AvlTree<T,K>::fillArray(node *vertics, pair<K, T> **array, int *index) {
-    if(!vertics)
-        return;
-    fillArray(vertics->m_left,array,index);
-    pair<K,T>* md=new pair<K,T>(vertics->m_key,vertics->m_data);
-    array[*index]=md;
-    *index+=1;
-    fillArray(vertics->m_right,array,index);
-}
 #endif
