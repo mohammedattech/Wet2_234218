@@ -85,6 +85,7 @@ void UnionFind::Union(int id1,int id2)
         root2->setHeightDelta(root2->getHeightDelta()+root1->getHeapHeight());
         root2->setHeapHeight(root2->getHeapHeight()+root1->getHeapHeight());
         root2->setgroupSize(root2->getGroupSize()+root1->getGroupSize());
+        root2->setCollumn(root1->getCollumn());
         root1->setHeightDelta(root1->getHeightDelta()-root2->getHeightDelta());
         root1->setParent(root2);
     }
