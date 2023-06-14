@@ -2,12 +2,13 @@
 #define RECORDS_COMPANY_H
 
 #include "utilesWet2.h"
+#include "UnionFind.h"
 
 
 
 class RecordsCompany {
   private:
-    // todo
+    UnionFind m_recordings; 
   public:
     RecordsCompany();
     ~RecordsCompany();
