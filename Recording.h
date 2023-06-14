@@ -3,7 +3,7 @@
 class Recording
 {
 public:
-    Recording(int collumn,int heapHeight);
+    Recording(int collumn=-1,int heapHeight=0);
     ~Recording()=default;
     int getCollumn() const;
     int getHeapHeight() const;
