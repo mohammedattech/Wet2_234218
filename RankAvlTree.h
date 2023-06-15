@@ -109,6 +109,10 @@ private:
 
     void RotateRL(node *vertics);
 
+    void ExtraBalanceRR(node* vertics);
+
+    void ExtraBalanceLL(node* vertics);
+
     template<class pred>
     void inorderExecution(node *vertics, pred &function);
 
@@ -152,6 +156,8 @@ void RankAvlTree<T, K,E>::insert(K key, T data) {
     }
     newNode->m_parent = temp;
     m_size++;
+    E extrasum=getExtra(key);
+    newNode->m_extra=-extrasum;
     updateBfAndBalance(newNode, true);
 }
 
@@ -379,7 +385,9 @@ void RankAvlTree<T, K,E>::setRoot(node *root) {
 }
 
 template<class T, class K,class E>
-void RankAvlTree<T, K,E>::RotateLL(node *vertics) {
+void RankAvlTree<T, K,E>::RotateLL(node *vertics) 
+{
+    ExtraBalanceLL(vertics);
     node *parent = vertics->m_parent;
     node *leftSon = vertics->m_left;
     vertics->m_left = leftSon->m_right;
@@ -410,7 +418,9 @@ void RankAvlTree<T, K,E>::RotateLL(node *vertics) {
 }
 
 template<class T, class K,class E>
-void RankAvlTree<T, K,E>::RotateRR(node *vertics) {
+void RankAvlTree<T, K,E>::RotateRR(node *vertics) 
+{
+    ExtraBalanceRR(vertics);
     node *parent = vertics->m_parent;
     node *rightSon = vertics->m_right;
     vertics->m_right = rightSon->m_left;
@@ -545,6 +555,10 @@ void RankAvlTree<T,K,E>::addExtra(K index,E amount){
             temp=temp->m_right;
         }
         else{
+            if(temp->m_key==key)
+            {
+               break; 
+            }
             if(right){
                 right=false;
                 temp->m_extra-=amount;
@@ -577,5 +591,29 @@ typename E RankAvlTree<T,K,E>::getExtra(K key)const{
         }
     }
     return extra;
+}
+template<class T,class K,class E>
+void RankAvlTree<T,K,E>::ExtraBalanceLL(node* vertics)
+{
+    E verticsExtra= vertics->m_extra;
+    E verticsLeftSonExtra= vertics->m_left->m_extra;
+    if(vertics->m_left->m_right)
+    {
+        vertics->m_left->m_right->extra+=verticsLeftSonExtra;
+    }
+    vertics->m_extra=-verticsLeftSonExtra;
+    vertics->m_left->extra+=verticsExtra;
+}
+template<class T,class K,class E>
+void RankAvlTree<T,K,E>::ExtraBalanceRR(node* vertics)
+{
+    E verticsExtra= vertics->m_extra;
+    E verticsRightSonExtra= vertics->m_right->m_extra;
+    if(vertics->m_right->m_left)
+    {
+        vertics->m_right->m_left->extra+=verticsRightSonExtra;
+    }
+    vertics->m_extra=-verticsRightSonExtra;
+    vertics->m_right->extra+=verticsExtra;
 }
 #endif
