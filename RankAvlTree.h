@@ -11,9 +11,9 @@ using std::ostream;
 //Generic Avl tree. created by Bashar Abu-Leil.
 static int max(int a, int b);
 
-static int max(int a, int b) {
+/*static int max(int a, int b) {
     return a > b ? a : b;
-}
+}*/
 
 
 
@@ -579,7 +579,7 @@ void RankAvlTree<T,K,E>::addExtra(K index,E amount){
 }
 
 template<class T,class K,class E>
-typename E RankAvlTree<T,K,E>::getExtra(K key)const{
+E RankAvlTree<T,K,E>::getExtra(K key)const{
     if(!search(key)){
         throw ElementDoesntExist();
     }
@@ -588,10 +588,10 @@ typename E RankAvlTree<T,K,E>::getExtra(K key)const{
     while(temp){
         extra+=temp->m_extra;
         if(temp->m_key<key){
-            temp=temp->m_right
+            temp=temp->m_right;
         }
         else{
-            temp=temp->m_left
+            temp=temp->m_left;
         }
     }
     return extra;

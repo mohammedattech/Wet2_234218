@@ -4,7 +4,7 @@
 
 class customerReset{
 public:
-    customerReset();
+    customerReset()=default;
     void operator()(Customer* cust);
 };
 

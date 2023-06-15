@@ -16,7 +16,7 @@ class RecordsCompany {
     HashTable<std::shared_ptr<Customer>> m_customers;
     RankAvlTree<Customer*,int,double> m_members;
   public:
-    RecordsCompany();
+    RecordsCompany()=default;
     ~RecordsCompany()=default;
     StatusType newMonth(int *records_stocks, int number_of_records);
     StatusType addCostumer(int c_id, int phone);

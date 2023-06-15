@@ -111,7 +111,7 @@ StatusType RecordsCompany::addCostumer(int c_id, int phone)
     std::shared_ptr<Customer> newCustomer(nullptr);
     try
     {
-        newCustomer=std::make_shared<Customer>(new Customer(c_id,phone));
+        newCustomer=std::shared_ptr<Customer>(new Customer(c_id,phone));
     }
     catch(const std::exception& e)
     {
