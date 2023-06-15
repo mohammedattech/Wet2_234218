@@ -64,6 +64,7 @@ public:
 
     node *getRoot();
 
+    void fillArray(pair<int, T> **array,int * index);
     template<class pred>
     void inorderExecution(pred &function);
 
@@ -83,6 +84,8 @@ private:
     void removeHasOneSon(node *vertics);
 
     void swapNodes(node *v1, node *v2);
+
+    void fillArray(pair<int, T> **array,int * index,node *vertics);
 
     void updateBfAndBalance(node *vertics, bool insert);
 
@@ -490,4 +493,21 @@ T *AvlTree<T, K>::getMinumumData() {
     return &minimumNode->m_data;
 }
 
+
+template<class T, class K>
+void AvlTree<T,K>::fillArray(pair<int, T> **array,int * index){
+    fillArray(array,index,m_root);
+}
+
+
+template<class T, class K>
+void AvlTree<T,K>::fillArray(pair<int, T> **array,int * index,node* vertics){
+    if(!vertics)
+        return;
+    fillArray(array,index,vertics->m_left);
+    pair<int,T>* pa=new pair(vertics->m_key,vertics->m_data)
+    *index=*index+1;
+    fillArray(array,index,vertics->m_right);
+
+}
 #endif
