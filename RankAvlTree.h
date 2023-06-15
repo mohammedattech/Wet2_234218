@@ -68,6 +68,8 @@ public:
     template<class pred>
     void inorderExecution(pred &function);
 
+    template<class pred>
+    void reset(pred &function);
     T *getMinumumData();
 
     void addExtra(K index1 , K index2,E amount );
@@ -116,6 +118,8 @@ private:
     template<class pred>
     void inorderExecution(node *vertics, pred &function);
 
+    template<class pred>
+    void reset(node *vertics, pred &function);
     void addExtra(K index1, E amount);
 };
 
@@ -616,4 +620,23 @@ void RankAvlTree<T,K,E>::ExtraBalanceRR(node* vertics)
     vertics->m_extra=-verticsRightSonExtra;
     vertics->m_right->extra+=verticsExtra;
 }
+
+template<class T,class K,class E>
+template<class pred>
+void RankAvlTree<T,K,E>::reset(pred &function){
+    reset(m_root,function);
+}
+
+template<class T,class K,class E>
+template<class pred>
+void RankAvlTree<T,K,E>::reset(node *vertics, pred &function){
+    if(!vertics){
+        return;
+    }
+    inorderExecution(vertics->m_left, function);
+    vertics->m_extra=E(0);
+    function(vertics->m_data);
+    inorderExecution(vertics->m_right, function);
+}
+
 #endif

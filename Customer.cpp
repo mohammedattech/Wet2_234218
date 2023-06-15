@@ -21,3 +21,8 @@ double Customer::getExpenses()const
 {
     return m_Expenses;
 }
+
+
+void Customer::setExpenses(double amount){
+    m_Expenses=amount;
+}

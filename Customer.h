@@ -10,6 +10,7 @@ public:
     int getPhoneNumber() const;
     void Addexpenses(double value);
     double getExpenses() const;
+    void setExpenses(double amount);
 private:
     int m_id;
     int m_phoneNumber;

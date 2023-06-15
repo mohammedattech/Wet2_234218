@@ -1,4 +1,64 @@
 #include "recordsCompany.h"
+#include"customerReset.h"
+RecordsCompany::RecordsCompany(){}
+
+
+RecordsCompany::~RecordsCompany(){
+
+}
+
+StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records){
+    if(number_of_records<0){
+        return StatusType::INVALID_INPUT;
+    }
+    try{
+        m_recordings.reInitialize(records_stocks,number_of_records);
+    }
+    catch (badAlloc& e){
+        return StatusType::ALLOCATION_ERROR;
+    }
+    customerReset reset;
+    m_members.reset(reset);
+}   
+
+
+Output_t<int> RecordsCompany::getPhone(int c_id){
+    if(c_id<0){
+        return StatusType::INVALID_INPUT;
+    }
+    Customer* cust;
+    try{
+        cust=m_customers.Find(c_id).get();
+    }
+    catch (ElementDoesntExist& exception){
+        return StatusType::DOESNT_EXISTS;
+    }
+    return cust->getPhoneNumber();
+}
+
+Output_t<bool> RecordsCompany::isMember(int c_id){
+    if(c_id<0){
+        return StatusType::INVALID_INPUT;
+    }
+    Customer* cust;
+    try{
+        cust=m_customers.Find(c_id).get();
+    }
+    catch (ElementDoesntExist& exception){
+        return StatusType::DOESNT_EXISTS;
+    }
+    return cust->isMember();
+}
+
+
+StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double  amount){
+    if(c_id1<0||c_id2<0||amount<=0){
+        return StatusType::INVALID_INPUT;
+    }
+    m_members.addExtra(c_id1,c_id2,amount);
+    return StatusType::SUCCESS;
+}
+
 StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
 {
     if(r_id1<0||r_id2<0)
