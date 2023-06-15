@@ -22,7 +22,7 @@ void UnionFind::reInitialize(int* sizes,int length)
     }
     m_numberOfSets=length;
 }
-int UnionFind::getNumberOfSets()const
+int UnionFind::getNumberOfMembers()const
 {
     return m_numberOfSets;
 }

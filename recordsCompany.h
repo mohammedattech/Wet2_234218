@@ -3,12 +3,18 @@
 
 #include "utilesWet2.h"
 #include "UnionFind.h"
-
+#include "HashTable.h"
+#include "RankAvlTree.h"
+#include "Customer.h"
+#include "Recording.h"
+#include <memory>
 
 
 class RecordsCompany {
   private:
-    UnionFind m_recordings; 
+    UnionFind m_recordings;
+    HashTable<std::shared_ptr<Customer>> m_customers;
+    RankAvlTree<Customer*,int,double> m_members;
   public:
     RecordsCompany();
     ~RecordsCompany();

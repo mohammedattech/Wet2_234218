@@ -7,10 +7,11 @@ public:
     UnionFind();
     ~UnionFind();
     void reInitialize(int* sizes,int length);
-    int getNumberOfSets()const;
+    int getNumberOfMembers()const;
     void Union(int id1,int id2);
     void find(int id,int* collumn,int* height=nullptr);
     Recording& operator[](int id);
+    static const int BASE_RECORDING_PRICE=100;
 private:
     Recording* m_sets;
     int m_numberOfSets;

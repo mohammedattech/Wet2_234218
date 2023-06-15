@@ -5,7 +5,7 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
     {
         return StatusType::INVALID_INPUT;
     }
-    if (r_id1>=m_recordings.getNumberOfSets()||r_id2>=m_recordings.getNumberOfSets())
+    if (r_id1>=m_recordings.getNumberOfMembers()||r_id2>=m_recordings.getNumberOfMembers())
     {
         return StatusType::DOESNT_EXISTS;
     }
@@ -27,10 +27,112 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight)
     {
         return StatusType::INVALID_INPUT;
     }
-    if(r_id>=m_recordings.getNumberOfSets())
+    if(r_id>=m_recordings.getNumberOfMembers())
     {
         return StatusType::DOESNT_EXISTS;
     }
     m_recordings.find(r_id,column,hight);
     return StatusType::SUCCESS;
+}
+StatusType RecordsCompany::addCostumer(int c_id, int phone)
+{
+    if(c_id<0||phone<0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    bool exists;
+    try
+    {
+        m_customers.Find(c_id);
+        exists=true;
+    }
+    catch(const ElementDoesntExist& e)
+    {
+        exists=false;   
+    }
+    if(exists)
+    {
+        return StatusType::ALREADY_EXISTS;
+    }
+    std::shared_ptr<Customer> newCustomer(nullptr);
+    try
+    {
+        newCustomer=std::make_shared<Customer>(new Customer(c_id,phone));
+    }
+    catch(const std::exception& e)
+    {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    m_customers.Insert(newCustomer,c_id);
+    return StatusType::SUCCESS;  
+}
+StatusType RecordsCompany::makeMember(int c_id)
+{
+    if(c_id<0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    Customer* customer;
+    try
+    {
+        customer=m_customers.Find(c_id).get();   
+    }
+    catch(const ElementDoesntExist& e)
+    {
+        return StatusType::DOESNT_EXISTS;
+    }
+    if(m_members.search(c_id))
+    {
+        return StatusType::ALREADY_EXISTS;
+    }
+    try
+    {
+        m_members.insert(c_id,customer);
+    }
+    catch(const std::bad_alloc& e)
+    {
+        return StatusType::ALLOCATION_ERROR;
+    }
+    customer->makeMember();
+    return StatusType::SUCCESS;   
+}
+StatusType RecordsCompany::buyRecord(int c_id, int r_id)
+{
+    if(c_id<0||r_id<0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    if(r_id>=m_recordings.getNumberOfMembers())
+    {
+        return StatusType::DOESNT_EXISTS;
+    }
+    Customer* customer;
+    try
+    {
+        customer=m_customers.Find(c_id).get();
+    }
+    catch(const std::exception& e)
+    {
+        return StatusType::DOESNT_EXISTS;   
+    }
+    if(customer->isMember())
+    {
+        customer->Addexpenses(UnionFind::BASE_RECORDING_PRICE+(double)m_recordings[r_id].getPurchases());   
+    }
+    m_recordings[r_id].incrementPurchases();
+    return StatusType::SUCCESS;
+}
+Output_t<double> RecordsCompany::getExpenses(int c_id)
+{
+    if(c_id<0)
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    if(!m_members.search(c_id))
+    {
+        return StatusType::DOESNT_EXISTS;
+    }
+    Customer* customer=m_members.getData(c_id);
+    double totalExpenses=customer->getExpenses()+m_members.getExtra(c_id);
+    return totalExpenses;
 }
