@@ -46,7 +46,7 @@ Output_t<bool> RecordsCompany::isMember(int c_id){
 
 
 StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double  amount){
-    if(c_id1<0||c_id2<0||amount<=0){
+    if(c_id1<0||c_id2<0||amount<=0||c_id2<c_id1){
         return StatusType::INVALID_INPUT;
     }
     m_members.addExtra(c_id1,c_id2,amount);

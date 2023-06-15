@@ -540,7 +540,10 @@ void RankAvlTree<T,K,E>::addExtra(K index1,K index2,E amount){
     node* previous=findPreviousInOrder(index1);
     node* indexNode=searchNode(index1);
     node* rightIndex=searchNode(index2);
-    addExtra(rightIndex->m_key,amount);
+    if(rightIndex&&rightIndex!=indexNode)
+    {
+        addExtra(rightIndex->m_key,amount);
+    }
     if(previous&&previous!=indexNode){
         addExtra(previous->m_key,-amount);
     }
