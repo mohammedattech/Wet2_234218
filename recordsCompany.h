@@ -17,7 +17,7 @@ class RecordsCompany {
     RankAvlTree<Customer*,int,double> m_members;
   public:
     RecordsCompany();
-    ~RecordsCompany();
+    ~RecordsCompany()=default;
     StatusType newMonth(int *records_stocks, int number_of_records);
     StatusType addCostumer(int c_id, int phone);
     Output_t<int> getPhone(int c_id);

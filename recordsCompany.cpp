@@ -1,12 +1,5 @@
 #include "recordsCompany.h"
 #include"customerReset.h"
-RecordsCompany::RecordsCompany(){}
-
-
-RecordsCompany::~RecordsCompany(){
-
-}
-
 StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records){
     if(number_of_records<0){
         return StatusType::INVALID_INPUT;
@@ -19,6 +12,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records){
     }
     customerReset reset;
     m_members.reset(reset);
+    return StatusType::SUCCESS;
 }   
 
 

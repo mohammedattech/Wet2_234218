@@ -241,13 +241,13 @@ void RankAvlTree<T, K,E>::printInOrder(node *vertics) const {
 
 
 template<class T, class K,class E>
-void RankAvlTree<T, K ,class E>::printInOrder() const {
+void RankAvlTree<T, K ,E>::printInOrder() const {
     printInOrder(m_root);
 }
 
 
 template<class T, class K,class E>
-void RankAvlTree<T, K,class E>::InOrder(node *vertics, int *arr, int length, int *index) const {
+void RankAvlTree<T, K, E>::InOrder(node *vertics, int *arr, int length, int *index) const {
     if (!vertics)
         return;
     InOrder(vertics->m_left, arr, length, index);
@@ -319,7 +319,7 @@ typename RankAvlTree<T, K,E>::node *RankAvlTree<T, K,E>::findNextInOrder(node *v
 }
 
 template<class T, class K,class E>
-void RankAvlTree<T, K,class E>::removeLeaf(node *vertics) {
+void RankAvlTree<T, K, E>::removeLeaf(node *vertics) {
     if (vertics == m_root) {
         m_root = nullptr;
     } else {
@@ -551,15 +551,15 @@ void RankAvlTree<T,K,E>::addExtra(K index,E amount){
     node*temp=m_root;
     bool right=false;
     while (temp){
-        if(temp->m_key<key){
+        if(temp->m_key<index){
             if(!right){
                 right=true;
-                temp->m_extra+=amount
+                temp->m_extra+=amount;
             }
             temp=temp->m_right;
         }
         else{
-            if(temp->m_key==key)
+            if(temp->m_key==index)
             {
                break; 
             }
@@ -603,10 +603,10 @@ void RankAvlTree<T,K,E>::ExtraBalanceLL(node* vertics)
     E verticsLeftSonExtra= vertics->m_left->m_extra;
     if(vertics->m_left->m_right)
     {
-        vertics->m_left->m_right->extra+=verticsLeftSonExtra;
+        vertics->m_left->m_right->m_extra+=verticsLeftSonExtra;
     }
     vertics->m_extra=-verticsLeftSonExtra;
-    vertics->m_left->extra+=verticsExtra;
+    vertics->m_left->m_extra+=verticsExtra;
 }
 template<class T,class K,class E>
 void RankAvlTree<T,K,E>::ExtraBalanceRR(node* vertics)
@@ -615,10 +615,10 @@ void RankAvlTree<T,K,E>::ExtraBalanceRR(node* vertics)
     E verticsRightSonExtra= vertics->m_right->m_extra;
     if(vertics->m_right->m_left)
     {
-        vertics->m_right->m_left->extra+=verticsRightSonExtra;
+        vertics->m_right->m_left->m_extra+=verticsRightSonExtra;
     }
     vertics->m_extra=-verticsRightSonExtra;
-    vertics->m_right->extra+=verticsExtra;
+    vertics->m_right->m_extra+=verticsExtra;
 }
 
 template<class T,class K,class E>
