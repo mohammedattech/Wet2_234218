@@ -187,6 +187,6 @@ Output_t<double> RecordsCompany::getExpenses(int c_id)
         return StatusType::DOESNT_EXISTS;
     }
     Customer* customer=m_members.getData(c_id);
-    double totalExpenses=customer->getExpenses()+m_members.getExtra(c_id);
+    double totalExpenses=customer->getExpenses()-m_members.getExtra(c_id);
     return totalExpenses;
 }

@@ -31,7 +31,7 @@ Recording& UnionFind::operator[](int id)
 {
     return m_sets[id];
 }
-void UnionFind::find(int id,int* height,int* collumn)
+void UnionFind::find(int id,int* collumn,int* height)
 {
     
     int deltaSum=0;
@@ -42,6 +42,7 @@ void UnionFind::find(int id,int* height,int* collumn)
     }
     else
     {
+        (*height)=0;
         findAux(m_sets+id,height,collumn,deltaSum);
     }
 }
