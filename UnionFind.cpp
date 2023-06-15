@@ -10,16 +10,17 @@ UnionFind::~UnionFind()
 }
 void UnionFind::reInitialize(int* sizes,int length)
 {
+    Recording* temp=new Recording[length];
+    for (int i = 0; i < length; i++)
+    {
+        temp[i].setCollumn(i);
+        temp[i].setHeapHeight(sizes[i]);
+    }
     if(m_sets)
     {
         delete[] m_sets;
     }
-    m_sets=new Recording[length];
-    for (int i = 0; i < length; i++)
-    {
-        m_sets[i].setCollumn(i);
-        m_sets[i].setHeapHeight(sizes[i]);
-    }
+    m_sets=temp;
     m_numberOfSets=length;
 }
 int UnionFind::getNumberOfMembers()const
