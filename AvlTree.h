@@ -501,11 +501,12 @@ void AvlTree<T,K>::fillArray(pair<int, T> **array,int * index){
 
 
 template<class T, class K>
-void AvlTree<T,K>::fillArray(pair<int, T> **array,int * index,node* vertics){
+void AvlTree<T,K>::fillArray(pair<int, T> **array,int * index,node *vertics){
     if(!vertics)
         return;
     fillArray(array,index,vertics->m_left);
-    pair<int,T>* pa=new pair(vertics->m_key,vertics->m_data)
+    pair<int,T>* pa=new pair<int,T>(vertics->m_key,vertics->m_data);
+    array[*index]=pa;
     *index=*index+1;
     fillArray(array,index,vertics->m_right);
 
