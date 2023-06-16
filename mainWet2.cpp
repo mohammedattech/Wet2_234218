@@ -17,12 +17,18 @@ vector<int> getRecordsStocks();
 int main()
 {
   int iter =0;
+  int addPrizeCounter=0;
+  int batata=0;
   string op;
   RecordsCompany *test_obj = new RecordsCompany();
   while (cin >> op)
   {
     iter++;
     // check operation
+    if(iter==578)
+    {
+      batata=1;
+    }
     if (!op.compare("newMonth"))
     {
       // get params
@@ -68,6 +74,7 @@ int main()
     }
     else if(!op.compare("addPrize"))
     {
+      addPrizeCounter++;
       int c_id1, c_id2, amount;
       cin >> c_id1; cin >> c_id2; cin >> amount;
 

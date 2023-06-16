@@ -170,7 +170,7 @@ void HashTable<T>::insertToNewTable(AvlTree<T, int> *tree, AvlTree<T, int> **tab
         }
     }
     for (int i = 0; i < tree->getSize(); i++) {
-        if (!inOrderArray[i]) {
+        if (inOrderArray[i]) {
             delete inOrderArray[i];
         }
     }

@@ -578,14 +578,10 @@ void RankAvlTree<T,K,E>::addExtra(K index,E amount){
     bool right=false;
     while (temp)
     {
-        if(temp->m_key<index){
+        if(temp->m_key<=index){
             if(!right){
                 right=true;
                 temp->m_extra+=amount;
-            }
-            if (temp->m_key==index)
-            {
-                break;   
             }
             temp=temp->m_right;
         }
@@ -663,9 +659,9 @@ void RankAvlTree<T,K,E>::reset(node *vertics, pred &function){
     if(!vertics){
         return;
     }
-    inorderExecution(vertics->m_left, function);
+    reset(vertics->m_left, function);
     vertics->m_extra=E(0);
     function(vertics->m_data);
-    inorderExecution(vertics->m_right, function);
+    reset(vertics->m_right, function);
 }
 #endif
