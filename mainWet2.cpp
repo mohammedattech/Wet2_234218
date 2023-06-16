@@ -14,14 +14,14 @@ template<typename T>
 void print(string cmd, Output_t<T> res);
 
 vector<int> getRecordsStocks();
-
 int main()
 {
+  int iter =0;
   string op;
   RecordsCompany *test_obj = new RecordsCompany();
   while (cin >> op)
   {
-    
+    iter++;
     // check operation
     if (!op.compare("newMonth"))
     {
