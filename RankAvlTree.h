@@ -18,7 +18,8 @@ static int max(int a, int b);
 
 
 template<class T, class K,class E>
-class RankAvlTree {
+class RankAvlTree 
+{
 public:
     RankAvlTree() : m_root(nullptr), m_size(0) {}
 
@@ -71,6 +72,7 @@ public:
     template<class pred>
     void reset(pred &function);
     T *getMinumumData();
+    node* getMinumumNode() const;
 
     void addExtra(K index1 , K index2,E amount );
 
@@ -150,7 +152,8 @@ void RankAvlTree<T, K,E>::insert(K key, T data) {
         return;
     }
     node *temp = searchNode(key);
-    if (temp->m_key == key) {
+    if (temp->m_key == key) 
+    {
         delete newNode;
         throw ElementExists();
     } else if (temp->m_key < key) {
@@ -512,6 +515,18 @@ T *RankAvlTree<T, K,E>::getMinumumData() {
     return &minimumNode->m_data;
 }
 
+template<class T, class K,class E>
+typename RankAvlTree<T, K,E>::node* RankAvlTree<T, K,E>::getMinumumNode() const
+{
+    if (!m_root) {
+        return nullptr;
+    }
+    node *minimumNode = m_root;
+    while (minimumNode->m_left) {
+        minimumNode = minimumNode->m_left;
+    }
+    return minimumNode;
+}
 template<class T,class K,class E>
 typename RankAvlTree<T,K,E>::node* RankAvlTree<T,K,E>::findPreviousInOrder(node *vertics){
     node *temp = vertics;
@@ -536,48 +551,55 @@ typename RankAvlTree<T,K,E>::node* RankAvlTree<T,K,E>::findPreviousInOrder(K ind
 
 
 template<class T,class K,class E>
-void RankAvlTree<T,K,E>::addExtra(K index1,K index2,E amount){
-    node* previous=findPreviousInOrder(index1);
-    node* indexNode=searchNode(index1);
-    node* rightIndex=searchNode(index2);
-    if(rightIndex&&rightIndex!=indexNode)
-    {
-        addExtra(rightIndex->m_key,amount);
+void RankAvlTree<T,K,E>::addExtra(K index1,K index2,E amount)
+{
+    addExtra(index1,-amount);
+    addExtra(index2,amount);
+    /*
+    if(m_size==0){
+        return;
     }
-    if(previous&&previous!=indexNode){
-        addExtra(previous->m_key,-amount);
+    node* previous1=findPreviousInOrder(index1);
+    node* previous2=findPreviousInOrder(index2);
+    node* minimumNode=getMinumumNode();
+    if(previous2->m_key<=index2){
+        addExtra(previous2->m_key,amount);
     }
+    if(previous1&&previous1!=minimumNode){
+        addExtra(previous1->m_key,-amount);
+    }
+    */
+
 }
 
 template<class T,class K,class E>
 void RankAvlTree<T,K,E>::addExtra(K index,E amount){
     node*temp=m_root;
     bool right=false;
-    while (temp){
+    while (temp)
+    {
         if(temp->m_key<index){
             if(!right){
                 right=true;
                 temp->m_extra+=amount;
             }
+            if (temp->m_key==index)
+            {
+                break;   
+            }
             temp=temp->m_right;
         }
         else{
-            if(temp->m_key==index)
-            {
-               break; 
-            }
             if(right){
                 right=false;
                 temp->m_extra-=amount;
             }
+            if (temp->m_key==index)
+            {
+                break;   
+            }
             temp=temp->m_left;
         }
-    }
-    if(!right){
-        temp->m_extra+=amount;
-    }
-    if(temp->m_right){
-        temp->m_right->m_extra-=amount;
     }
 }
 
@@ -593,8 +615,13 @@ E RankAvlTree<T,K,E>::getExtra(K key)const{
         if(temp->m_key<key){
             temp=temp->m_right;
         }
-        else{
+        else if(temp->m_key>key)
+        {
             temp=temp->m_left;
+        }
+        else
+        {
+            break;
         }
     }
     return extra;
@@ -641,5 +668,4 @@ void RankAvlTree<T,K,E>::reset(node *vertics, pred &function){
     function(vertics->m_data);
     inorderExecution(vertics->m_right, function);
 }
-
 #endif
